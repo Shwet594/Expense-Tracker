@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit <%= type %> - Expense Tracker</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    }
+    .glass {
+      background: rgba(17, 24, 39, 0.8);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-6 text-white">
+
+  <main class="w-full max-w-lg glass rounded-2xl p-8 shadow-xl">
+
+    <h1 class="text-2xl font-bold mb-6 <%= type === 'Income' ? 'text-green-400' : 'text-red-400' %>">
+      Edit <%= type %>
+    </h1>
+
+    <form action="/users/<%= type.toLowerCase() %>/update/<%= transaction._id %>" method="POST" class="space-y-4">
+
+      <!-- Category -->
+      <div>
+        <label class="block mb-1 text-sm">Category</label>
+        <select name="category" class="w-full p-2 rounded-md bg-gray-700 border border-gray-600 focus:outline-none">
+          <% if (type === 'Income') { %>
+            <option value="Salary" <%= transaction.category === 'Salary' ? 'selected' : '' %>>Salary</option>
+            <option value="Bonus" <%= transaction.category === 'Bonus' ? 'selected' : '' %>>Bonus</option>
+            <option value="Extra" <%= transaction.category === 'Extra' ? 'selected' : '' %>>Extra</option>
+          <% } else { %>
+            <option value="FixedBills" <%= transaction.category === 'FixedBills' ? 'selected' : '' %>>Fixed Bills</option>
+            <option value="Foodandtravel" <%= transaction.category === 'Foodandtravel' ? 'selected' : '' %>>Food & Travel</option>
+            <option value="Groceries" <%= transaction.category === 'Groceries' ? 'selected' : '' %>>Groceries</option>
+            <option value="Miscellaneous" <%= transaction.category === 'Miscellaneous' ? 'selected' : '' %>>Miscellaneous</option>
+          <% } %>
+        </select>
+      </div>
+
+      <!-- Description -->
+      <div>
+        <label class="block mb-1 text-sm">Description</label>
+        <input type="text" name="description" value="<%= transaction.description %>" 
+               class="w-full p-2 rounded-md bg-gray-700 border border-gray-600 focus:outline-none">
+      </div>
+
+      <!-- Amount -->
+      <div>
+        <label class="block mb-1 text-sm">Amount</label>
+        <input type="number" name="amount" value="<%= transaction.amount %>" 
+               class="w-full p-2 rounded-md bg-gray-700 border border-gray-600 focus:outline-none">
+      </div>
+
+      <!-- Date -->
+      <div>
+        <label class="block mb-1 text-sm">Date</label>
+        <input type="date" name="date" value="<%= transaction.date.toISOString().split('T')[0] %>" 
+               class="w-full p-2 rounded-md bg-gray-700 border border-gray-600 focus:outline-none">
+      </div>
+
+      <button type="submit"
+              class="w-full py-2 rounded-lg font-semibold <%= type === 'Income' ? 'bg-green-600 hover:bg-green-700' : 'bg-red-600 hover:bg-red-700' %>">
+        Update <%= type %>
+      </button>
+
+    </form>
+
+    <a href="/users/All" 
+       class="block mt-4 text-center text-blue-400 hover:underline">
+      Back to Transactions
+    </a>
+
+  </main>
+
+</body>
+</html>
