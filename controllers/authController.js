@@ -58,5 +58,5 @@ export const profile = async (req, res) => {
 
 export const logout = (req, res) => {
   res.clearCookie("token");
-  res.redirect("/");W
+  res.redirect("/");
 };
